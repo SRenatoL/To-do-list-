@@ -3,10 +3,14 @@ const path = require('path');
 
 const checkListRouter = require('./src/routes/checklist');
 const roootRouter = require('./src/routes/index');
+const methodOverride = require('method-override')
+
 require('./config/database');
 
 const app = express();
 app.use(express.json()); //express.json sempre em cima :D
+app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method'))
 
 app.use(express.static(path.join(__dirname, 'public'))); //abilitando o uso de estaticos
 
