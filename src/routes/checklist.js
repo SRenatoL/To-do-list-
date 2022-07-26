@@ -46,7 +46,7 @@ let checklist = new Checklist({name})
 router.get('/:id', async (req, res) => {
 
   try{
-    let checklist = await Checklist.findById(req.params.id);
+    let checklist = await Checklist.findById(req.params.id).populate('tasks'); //populate - usado para buscar as tasks :D
     res.status(200).render('checklists/show', {checklist: checklist})
   }catch(error){
     res.status(500).render('pages/error', {error: 'Erro ao exibir as listas de tarefas'})
@@ -72,9 +72,9 @@ let checklist = await Checklist.findById(req.params.id);
 router.delete('/:id', async (req, res) => {
   try{
     let checklist = await Checklist.findByIdAndRemove(req.params.id)
-    res.status(200).json(checklist)
+    res.redirect('/checklists')
   }catch(error){
-    res.status(422).json(error)
+    rres.status(500).render('pages/error', {error: 'Erro ao deletar a lista de tarefas'})
   }
 })
 
